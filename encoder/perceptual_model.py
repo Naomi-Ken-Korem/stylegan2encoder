@@ -223,10 +223,6 @@ class PerceptualModel:
 
     def set_reference_images(self, images_list):
         assert(len(images_list) != 0 and len(images_list) <= self.batch_size)
-        print(f'this is the image list: {images_list}')
-
-
-        print(f'this is the image list: {images_list}')
         loaded_image = load_images(images_list, self.img_size, sharpen=self.sharpen_input)
         image_features = None
         if self.perceptual_model is not None:

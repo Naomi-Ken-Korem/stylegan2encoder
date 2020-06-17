@@ -114,6 +114,7 @@ def main():
     ref_images = [os.path.join(args.src_dir, x) for x in os.listdir(args.src_dir) if x[0] not in '._']
     ref_images = list(filter(os.path.isfile, ref_images))
     ref_images = [p for p in ref_images if '.npy' not in p]
+    print(f'this is the image list: {ref_images}')
 
     if len(ref_images) == 0:
         raise Exception('%s is empty' % args.src_dir)
