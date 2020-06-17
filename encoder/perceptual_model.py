@@ -222,6 +222,7 @@ class PerceptualModel:
 
     def set_reference_images(self, images_list):
         assert(len(images_list) != 0 and len(images_list) <= self.batch_size)
+        images_list = [p for p in images_list if '.npy' not in p]
         loaded_image = load_images(images_list, self.img_size, sharpen=self.sharpen_input)
         image_features = None
         if self.perceptual_model is not None:
