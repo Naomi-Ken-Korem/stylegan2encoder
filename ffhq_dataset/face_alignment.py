@@ -61,6 +61,7 @@ def image_align(src_file, dst_file, face_landmarks, output_size=1024, transform_
             img = img.crop(crop)
             quad -= crop[0:2]
 
+        np.save(f'{os.path.splitext(dst_file)[0]}.npy', quad)
         # Pad.
         pad = (int(np.floor(min(quad[:,0]))), int(np.floor(min(quad[:,1]))), int(np.ceil(max(quad[:,0]))), int(np.ceil(max(quad[:,1]))))
         pad = (max(-pad[0] + border, 0), max(-pad[1] + border, 0), max(pad[2] - img.size[0] + border, 0), max(pad[3] - img.size[1] + border, 0))

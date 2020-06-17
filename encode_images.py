@@ -11,8 +11,19 @@ import pretrained_networks
 from encoder.generator_model import Generator
 from encoder.perceptual_model import PerceptualModel
 from keras.models import load_model
+import cv2
+
 from keras.applications.resnet50 import preprocess_input
 
+def back_align(pil_im, quad_path):
+    im = np.array(pil_im)
+    old_corners = np.array([[0,0],[0,1024], [1024,1024], [1024,0]])
+    new_corners = np.load(quad_path)
+    print(new_corners)
+    H = cv2.findHomography(new_corners, old_corners)
+    H_inv = np.linalg.inv(H[0])
+    rot_im = cv2.warpPerspective(im, M = H_inv, dsize = (1024,1024))
+    return PIL.Image.fromarray(rot_im, 'RGB')
 
 def split_to_batches(l, n):
     for i in range(0, len(l), n):
@@ -234,6 +245,9 @@ def main():
                 #img_array = np.where(mask, np.array(img_array), orig_img)
             img = PIL.Image.fromarray(img_array, 'RGB')
             img.save(os.path.join(args.generated_images_dir, f'{img_name}.png'), 'PNG')
+            quad_path = f'{args.src_dir}/{img_name}.npy'
+            back_align_im = back_align(img, quad_path)
+            back_align_im.save(os.path.join(args.generated_images_dir, f'{img_name}.png'), 'PNG')
             np.save(os.path.join(args.dlatent_dir, f'{img_name}.npy'), dlatent)
 
         generator.reset_dlatents()
