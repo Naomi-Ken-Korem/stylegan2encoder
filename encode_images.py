@@ -12,6 +12,7 @@ from encoder.generator_model import Generator
 from encoder.perceptual_model import PerceptualModel
 from keras.models import load_model
 import cv2
+import imageio as io
 
 from keras.applications.resnet50 import preprocess_input
 
@@ -250,6 +251,10 @@ def main():
 
             back_align_im = back_align(img, quad_path)
             back_align_im.save(os.path.join(args.generated_images_dir, f'{img_name}_back_aligned.png'), 'PNG')
+
+            orig_im = io.imread(img_path)
+            paired_img = np.hstack([orig_im, np.array(back_align_im)])
+            paired_img.save(os.path.join(args.generated_images_dir, f'{img_name}_paired.png'), 'PNG')
             np.save(os.path.join(args.dlatent_dir, f'{img_name}.npy'), dlatent)
 
         generator.reset_dlatents()

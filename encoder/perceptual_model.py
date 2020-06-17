@@ -14,6 +14,7 @@ from keras.applications.vgg16 import VGG16, preprocess_input
 import keras.backend as K
 import traceback
 import dnnlib.tflib as tflib
+import matplotlib.pyplot as plt
 
 def load_images(images_list, image_size=256, sharpen=False):
     loaded_images = list()
@@ -249,6 +250,8 @@ class PerceptualModel:
                         imask = PIL.Image.fromarray(imask, 'L')
                         print("Saving mask " + mask_img)
                         imask.save(mask_img, 'PNG')
+                        plt.figure()
+                        plt.imshow(np.array(imask))
                         mask = np.expand_dims(mask,axis=-1)
                     mask = np.ones(im.shape,np.float32) * mask
                 except Exception as e:
