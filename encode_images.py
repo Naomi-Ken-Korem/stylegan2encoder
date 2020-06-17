@@ -112,6 +112,7 @@ def main():
 
     ref_images = [os.path.join(args.src_dir, x) for x in os.listdir(args.src_dir) if x[0] not in '._']
     ref_images = list(filter(os.path.isfile, ref_images))
+    ref_images = [p for p in ref_images if '.npy' not in p]
 
     if len(ref_images) == 0:
         raise Exception('%s is empty' % args.src_dir)
@@ -149,7 +150,7 @@ def main():
                 video_out[name] = cv2.VideoWriter(os.path.join(args.video_dir, f'{name}.avi'),cv2.VideoWriter_fourcc(*args.video_codec), args.video_frame_rate, (args.video_size,args.video_size))
 
         perceptual_model.set_reference_images(images_batch)
-        perceptual_model.set_reference_images(images_batch)
+        # perceptual_model.set_reference_images(images_batch)
         dlatents = None
         if (args.load_last != ''): # load previous dlatents for initialization
             for name in names:
