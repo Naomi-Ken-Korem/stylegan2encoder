@@ -246,6 +246,7 @@ def main():
             img = PIL.Image.fromarray(img_array, 'RGB')
             img.save(os.path.join(args.generated_images_dir, f'{img_name}.png'), 'PNG')
             quad_path = f'{args.src_dir}/{img_name}.npy'
+
             back_align_im = back_align(img, quad_path)
             back_align_im.save(os.path.join(args.generated_images_dir, f'{img_name}_back_aligned.png'), 'PNG')
             np.save(os.path.join(args.dlatent_dir, f'{img_name}.npy'), dlatent)
