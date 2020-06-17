@@ -254,6 +254,7 @@ def main():
 
             orig_im = io.imread(img_path)
             paired_img = np.hstack([orig_im, np.array(back_align_im)])
+            paired_img = PIL.Image.fromarray(paired_img, 'RGB')
             paired_img.save(os.path.join(args.generated_images_dir, f'{img_name}_paired.png'), 'PNG')
             np.save(os.path.join(args.dlatent_dir, f'{img_name}.npy'), dlatent)
 
