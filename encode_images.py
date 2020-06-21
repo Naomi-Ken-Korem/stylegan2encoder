@@ -140,7 +140,8 @@ def main():
             with dnnlib.util.open_url(args.vgg_url, cache_dir='.stylegan2-cache') as f:
                 perc_model = pickle.load(f)
         else:
-            perc_model = pickle.load(args.vgg_url)
+            with open(args.vgg_url, 'pkl') as f:
+            perc_model = pickle.load(f)
 
     perceptual_model = PerceptualModel(args, perc_model=perc_model, batch_size=args.batch_size)
     perceptual_model.build_perceptual_model(generator, discriminator_network)
