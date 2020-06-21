@@ -7,6 +7,7 @@ from PIL import ImageFilter
 import numpy as np
 import dnnlib
 import dnnlib.tflib as tflib
+import dnnlib.util as dnn_util
 import pretrained_networks
 from encoder.generator_model import Generator
 from encoder.perceptual_model import PerceptualModel
@@ -135,8 +136,11 @@ def main():
 
     perc_model = None
     if (args.use_lpips_loss > 0.00000001):
-        with dnnlib.util.open_url(args.vgg_url, cache_dir='.stylegan2-cache') as f:
-            perc_model = pickle.load(f)
+        if dnn_util.is_url(args.vgg_url):
+            with dnnlib.util.open_url(args.vgg_url, cache_dir='.stylegan2-cache') as f:
+                perc_model = pickle.load(f)
+        else:
+            perc_model = pickle.load(args.vgg_url)
 
     perceptual_model = PerceptualModel(args, perc_model=perc_model, batch_size=args.batch_size)
     perceptual_model.build_perceptual_model(generator, discriminator_network)

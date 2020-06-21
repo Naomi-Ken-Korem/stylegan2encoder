@@ -1,0 +1,4 @@
+imageio
+python-opencv
+keras==2.3.1
+requests
