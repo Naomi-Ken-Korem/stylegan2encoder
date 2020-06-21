@@ -1,4 +1,6 @@
 imageio
-python-opencv
+opencv-python
 keras==2.3.1
 requests
+dlib
+imutils
