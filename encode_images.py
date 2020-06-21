@@ -141,7 +141,7 @@ def main():
                 perc_model = pickle.load(f)
         else:
             with open(args.vgg_url, 'pkl') as f:
-            perc_model = pickle.load(f)
+                perc_model = pickle.load(f)
 
     perceptual_model = PerceptualModel(args, perc_model=perc_model, batch_size=args.batch_size)
     perceptual_model.build_perceptual_model(generator, discriminator_network)
